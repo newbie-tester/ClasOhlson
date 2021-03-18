@@ -1,12 +1,9 @@
 Feature: Add to cart
-  I want to verify that the correct amount of items are added in the shopping cart
+I want to verify that the correct amount of items are added in the shopping cart
   
-  Scenario: Add to cart
-    Given I want to write a step with precondition
-    And some other precondition
-    When I complete action
-    And some other action
-    And yet another action
-    Then I validate the outcomes
-    And check more outcomes
-
+Scenario: Add to cart
+Given I have opened the superlim page
+And I have changed the amount to 2
+When I press add to cart
+Then I should see 2 appears in the cart icon
+    
