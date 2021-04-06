@@ -6,7 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -20,7 +22,7 @@ public class StepDefinitionsGrolls {
 	public void i_have_browsed_to_the_t_shirt_page() {
 		System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\Selenium\\chromedriver.exe");
 		driver = new ChromeDriver();
-		driver.get("https://www.grolls.se/helags-t-shirt--svart1100099.html\r\n");
+		driver.get("https://www.grolls.se/helags-t-shirt--svart1100099.html");
 		driver.manage().window().maximize();
 	}
 
@@ -33,7 +35,7 @@ public class StepDefinitionsGrolls {
 
 	@Given("I have clicked the plus button to get {int} in amount")
 	public void i_have_clicked_the_plus_button_to_get_in_amount(Integer int1) throws InterruptedException {
-		driver.findElement(By.className("qty-plus")).click();
+		driver.findElement(By.cssSelector("span.qty-plus > img")).click();
 		Thread.sleep(2000);
 		WebElement amount = driver.findElement(By.cssSelector("input.input-text.qty"));
 		assertEquals("2", amount.getAttribute("value"));
@@ -57,14 +59,21 @@ public class StepDefinitionsGrolls {
 	@When("I add to cart")
 	public void i_add_to_cart() {
 		driver.findElement(By.id("product-addtocart-button")).click();
+//		isInCart(driver, By.cssSelector("span.counter-number"));
 	}
 
 	@Then("I should see 2 in the cart icon")
 	public void i_should_see_in_the_cart_icon() throws InterruptedException {
-		Thread.sleep(2000);
+		WebElement isInCart = (new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("span.counter-number")));
+		isInCart.isDisplayed();
 		WebElement numberInCart = driver.findElement(By.xpath("/html/body/div[4]/header/div[3]/div[4]/a/span/span[1]"));
 		assertEquals("2", numberInCart.getAttribute("outerText"));
 		driver.quit();
 	}
-
+	
+//	private void isInCart(WebDriver driver, By by) {
+//
+//		(new WebDriverWait(driver,10)).until(ExpectedConditions.presenceOfElementLocated(by));
+//		}
+ 
 }
